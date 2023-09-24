@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'demo',
     'todo',
     'tasks',
+    'student',
+    'teacher',
+    'class',
 ]
 
 MIDDLEWARE = [
