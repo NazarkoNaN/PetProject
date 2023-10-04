@@ -5,4 +5,4 @@ class Student(models.Model):
     course = models.IntegerField(default=1)
     phone_number = models.CharField(max_length=12, default=None)
     def __str__(self):
-        return self.user.username
+        return self.user

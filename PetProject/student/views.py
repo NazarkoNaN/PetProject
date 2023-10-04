@@ -1,19 +1,27 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.shortcuts import render
-from .forms import *
+from .forms import StudentModelForm, StudentCreationForm
+from .models import Student
+
 
 def index(request):
-    if request.method == "POST":
-        firstname = request.POST.get("firstname")
-        lastname = request.POST.get("lastname")
-        email = request.POST.get("email")
-        phone = request.POST.get("phone")
-        data = {
-            "firstname": firstname,
-            "lastname": lastname,
-            "email": email,
-            "phone": '('+phone[0]+phone[1]+phone[2]+') '+phone[3]+phone[4]+phone[5]+'-'+phone[6]+phone[7]+phone[8]+phone[9]
-        }
-        return render(request,'student/index.html', data)
-    else:
-        studentform = StudentForm()
-        return render(request,'student/index.html',{"form": studentform})
+    return render(request,'student/index.html', {'form':form})
+
+def login(request):
+    return render(request,'student/login.html')
+
+def register(request):
+    form = StudentCreationForm(request.POST or None)
+
+    if form.is_valid():
+        user = User(username=form.firstname,
+                    last_name=form.lastname,
+                    email=form.email,
+                    password=form.password1)
+        user.save()
+        student = Student(user=user, phonenumber=form.phone)
+        student.save()
+        return render(request, 'student/index.html')
+
+    return render(request,'student/register.html', {"form":form})
