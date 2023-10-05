@@ -14,5 +14,5 @@ class StudentCreationForm(forms.Form):
 class StudentModelForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['phone_number']
+        fields = ['phone']
 
