@@ -17,35 +17,44 @@
               {% csrf_token %}
               <h2 class="fw-bold mb-2 text-uppercase ">Brand</h2>
               <p class=" mb-5">Please enter your login and password!</p>
+
+              <div class="mb-3">
+                <label for="typeUsernameX" class="form-label ">Username</label>
+                {{ form.username }}
+              </div>
+
               <!-- First/Lst name -->
               <div class="row">
                 <div class="col mb-3">
-                  <label for="firstname" class="form-label ">First name</label>
-                  {{ form.firstname }}
+                  <label for="typeFirstName" class="form-label ">First name</label>
+                  {{ form.first_name }}
                 </div>
                 <div class="col mb-3">
-                  <label for="lastname" class="form-label ">Last name</label>
-                  {{ form.lastname }}
+                  <label for="typeLastName" class="form-label ">Last name</label>
+                  {{ form.last_name }}
                 </div>
               </div>
 
               <div class="mb-3">
-                <label for="email" class="form-label ">Email address</label>
+                <label for="typeEmailX" class="form-label ">Email address</label>
                 {{ form.email }}
+                <div class="invalid-feedback">Enter your email!</div>
               </div>
               <div class="mb-3">
-                <label for="phone" class="form-label ">Phone number</label>
-                {{ form.phone }}
+                <label for="typePhoneX" class="form-label ">Phone number</label>
+                {{ form.phone_number }}
+                <div class="invalid-feedback">Enter your student number.</div>
+                <div class="invalid-feedback">For example 12345678.</div>
               </div>
               <div class="mb-3">
-                <label for="password1" class="form-label ">Password</label>
+                <label for="typePassword1" class="form-label ">Password</label>
                 {{ form.password1 }}
               <div class="mb-3">
-                <label for="password2" class="form-label ">Password</label>
+                <label for="typePassword2" class="form-label ">Repeat password</label>
                 {{ form.password2 }}
               </div>
               <div class="d-grid">
-                <button class="btn btn-outline-dark" type="submit" value="Send">Register</button>
+                <button class="btn btn-outline-dark" type="submit">Register</button>
               </div>
             </form>
             <div>
