@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -104,25 +104,29 @@ class RegisterUserForm(UserCreationForm):
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
 
-class LoginUserForm(AuthenticationForm):
-    email = forms.EmailField(widget=forms.TextInput(attrs={
-        'type': "email",
-        'id': "typeEmailX",
-        'class': "form-control form-control-lg"}))
-    password = forms.CharField(widget=forms.TextInput(attrs={
-        'type': "password",
-        'id': "typePasswordX",
-        'class': "form-control form-control-lg"}))
+class LoginForm(forms.Form):
+    email = forms.EmailField(max_length=255,
+                             required=True,
+                             widget=forms.TextInput())
+    password = forms.CharField(max_length=255,
+                               required=True,
+                               widget=forms.PasswordInput())
 
-    def __long__(self):
-        email = self.cleaned_data['email']
-        password = self.cleaned_data['password']
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        try:
+            user = User.objects.get(email=email)
+        except:
+            raise forms.ValidationError("Sorry, that login was invalid. Please try again.")
+        user = authenticate(username=user.username, password=password)
+        if not user or not user.is_active:
+            raise forms.ValidationError("Sorry, that login was invalid. Please try again.")
+        return self.cleaned_data
 
-        user = User.get_latest_by(email=email, password=password)
-
-        if user is not None:
-            login(user)
-
-    class Meta:
-        model = User
-        fields = ['email', 'password']
+    def user_login(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+        user = User.objects.get(email=email)
+        user = authenticate(username=user.username, password=password)
+        return user
