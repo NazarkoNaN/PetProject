@@ -9,7 +9,7 @@ def index(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('task_ist')
+        return redirect('task_list')
 
     tasks = Task.objects.all()
 
